@@ -134,23 +134,27 @@
 
     </div>
 
-    <script>
+<script>
 
-        function connect() {
+    function connect() {
 
-            document.getElementById("status").textContent =
-                "Connecting...";
+        document.getElementById("status").textContent =
+            "Connecting...";
 
-        }
+    }
 
-        function disconnect() {
+    function disconnect() {
 
-            document.getElementById("status").textContent =
-                "Not connected";
+        document.getElementById("status").textContent =
+            "Not connected";
 
-        }
+    }
 
-    </script>
+    if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("./service-worker.js");
+    }
+
+</script>
 
 </body>
 </html>

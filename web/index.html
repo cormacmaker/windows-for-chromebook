@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Windows for Chromebook</title>
+</head>
+
+<body>
+    <h1>Windows for Chromebook</h1>
+
+    <p id="status">Not connected</p>
+
+    <button onclick="connect()">Connect</button>
+
+    <script>
+        function connect() {
+            document.getElementById("status").textContent =
+                "Connecting...";
+        }
+    </script>
+</body>
+</html>

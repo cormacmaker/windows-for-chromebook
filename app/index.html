@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Windows for Chromebook</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #0f172a;
+            color: white;
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .topbar {
+            height: 60px;
+            background: #1e293b;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+
+        .title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .status {
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        .main {
+            height: calc(100vh - 60px);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .screen {
+            flex: 1;
+            margin: 20px;
+            background: #000;
+            border: 1px solid #334155;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .message {
+            text-align: center;
+            color: #64748b;
+        }
+
+        .message-icon {
+            font-size: 50px;
+            margin-bottom: 10px;
+        }
+
+        .controls {
+            padding: 15px 20px 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            border: none;
+            border-radius: 8px;
+            padding: 10px 18px;
+            background: #2563eb;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="topbar">
+
+        <div class="title">
+            Windows for Chromebook
+        </div>
+
+        <div class="status" id="status">
+            Not connected
+        </div>
+
+    </div>
+
+    <div class="main">
+
+        <div class="screen">
+
+            <div class="message">
+
+                <div class="message-icon">
+                    🖥️
+                </div>
+
+                <div id="screenMessage">
+                    Windows screen will appear here
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="controls">
+
+            <button onclick="connect()">
+                Connect
+            </button>
+
+            <button onclick="disconnect()">
+                Disconnect
+            </button>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        function connect() {
+
+            document.getElementById("status").textContent =
+                "Connecting...";
+
+        }
+
+        function disconnect() {
+
+            document.getElementById("status").textContent =
+                "Not connected";
+
+        }
+
+    </script>
+
+</body>
+</html>

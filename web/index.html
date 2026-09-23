@@ -170,133 +170,195 @@
 
 <body>
 
-    <header>
-        <div class="logo">Windows for Chromebook</div>
+<header>
+    <div class="logo">Windows for Chromebook</div>
 
-        <div class="status">
-            <span id="statusDot" class="status-dot"></span>
-            <span id="statusText">Not connected</span>
+    <div class="status">
+        <span id="statusDot" class="status-dot"></span>
+        <span id="statusText">Not connected</span>
+    </div>
+</header>
+
+<main>
+
+    <section class="connection-panel">
+
+        <h1>Connect to Windows</h1>
+
+        <p class="description">
+            Connect your Chromebook to your Windows PC and use Windows apps remotely.
+        </p>
+
+        <div class="connection-row">
+
+            <input
+                id="pcAddress"
+                type="text"
+                placeholder="Example: 192.168.1.100"
+            >
+
+            <button onclick="connect()">
+                Connect
+            </button>
+
+            <button onclick="disconnect()">
+                Disconnect
+            </button>
+
         </div>
-    </header>
 
-    <main>
+    </section>
 
-        <section class="connection-panel">
-            <h1>Connect to Windows</h1>
+    <section class="screen">
 
-            <p class="description">
-                Connect your Chromebook to your Windows PC and use Windows apps remotely.
+        <div class="screen-content">
+
+            <div class="screen-icon">🖥️</div>
+
+            <div id="screenMessage">
+                Windows screen will appear here
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="apps">
+
+        <div class="app-card">
+            <h3>Blender</h3>
+
+            <p>
+                Start Blender on your Windows PC.
             </p>
 
-            <div class="connection-row">
-                <input
-                    id="pcAddress"
-                    type="text"
-                    placeholder="Windows PC address"
-                >
+            <button onclick="launchApp('blender')">
+                Launch
+            </button>
+        </div>
 
-                <button onclick="connect()">
-                    Connect
-                </button>
-            </div>
-        </section>
+        <div class="app-card">
+            <h3>Roblox Studio</h3>
 
-        <section class="screen">
-            <div class="screen-content">
-                <div class="screen-icon">🖥️</div>
+            <p>
+                Start Roblox Studio on your Windows PC.
+            </p>
 
-                <div>
-                    Windows screen will appear here
-                </div>
-            </div>
-        </section>
+            <button onclick="launchApp('roblox')">
+                Launch
+            </button>
+        </div>
 
-        <section class="apps">
+        <div class="app-card">
+            <h3>More Apps</h3>
 
-            <div class="app-card">
-                <h3>Blender</h3>
+            <p>
+                More Windows applications can be added later.
+            </p>
 
-                <p>
-                    Start Blender on your Windows PC.
-                </p>
+            <button onclick="showMessage()">
+                Coming Soon
+            </button>
+        </div>
 
-                <button onclick="launchApp('blender')">
-                    Launch
-                </button>
-            </div>
+    </section>
 
-            <div class="app-card">
-                <h3>Roblox Studio</h3>
+</main>
 
-                <p>
-                    Start Roblox Studio on your Windows PC.
-                </p>
+<footer>
+    Windows for Chromebook
+</footer>
 
-                <button onclick="launchApp('roblox')">
-                    Launch
-                </button>
-            </div>
+<script>
 
-            <div class="app-card">
-                <h3>More Apps</h3>
+    let connection = null;
 
-                <p>
-                    More Windows applications can be added later.
-                </p>
+    function connect() {
 
-                <button onclick="showMessage()">
-                    Coming Soon
-                </button>
-            </div>
+        const address =
+            document.getElementById("pcAddress").value.trim();
 
-        </section>
-
-    </main>
-
-    <footer>
-        Windows for Chromebook
-    </footer>
-
-    <script>
-        function connect() {
-            const address = document.getElementById("pcAddress").value.trim();
-
-            if (address === "") {
-                setStatus("Enter your Windows PC address", false);
-                return;
-            }
-
-            setStatus("Connecting...", false);
-
-            // Real connection will be added later.
-            setTimeout(() => {
-                setStatus("Connection system coming soon", false);
-            }, 1000);
+        if (address === "") {
+            setStatus("Enter your Windows PC address", false);
+            return;
         }
 
-        function launchApp(app) {
+        setStatus("Connecting...", false);
+
+        /*
+         * The Windows Agent currently uses TCP.
+         *
+         * A browser cannot directly open a raw TCP
+         * connection, so this is intentionally not
+         * connected yet.
+         *
+         * We'll change the Windows Agent to a browser-
+         * compatible connection system next.
+         */
+
+        setTimeout(() => {
+
             setStatus(
-                app + " launcher will be connected later",
+                "Agent connection needs WebSocket support",
                 false
             );
+
+        }, 500);
+    }
+
+
+    function disconnect() {
+
+        if (connection) {
+            connection.close();
+            connection = null;
         }
 
-        function showMessage() {
-            setStatus("More apps coming soon", false);
+        setStatus("Not connected", false);
+
+        document.getElementById("screenMessage").textContent =
+            "Windows screen will appear here";
+    }
+
+
+    function launchApp(app) {
+
+        if (!connection) {
+
+            setStatus(
+                "Connect to your Windows PC first",
+                false
+            );
+
+            return;
         }
 
-        function setStatus(message, connected) {
-            document.getElementById("statusText").textContent = message;
+        console.log("Launching:", app);
+    }
 
-            const dot = document.getElementById("statusDot");
 
-            if (connected) {
-                dot.style.background = "#22c55e";
-            } else {
-                dot.style.background = "#ef4444";
-            }
-        }
-    </script>
+    function showMessage() {
+
+        setStatus(
+            "More apps coming soon",
+            false
+        );
+    }
+
+
+    function setStatus(message, connected) {
+
+        document.getElementById("statusText").textContent =
+            message;
+
+        const dot =
+            document.getElementById("statusDot");
+
+        dot.style.background =
+            connected ? "#22c55e" : "#ef4444";
+    }
+
+</script>
 
 </body>
 </html>

@@ -136,22 +136,96 @@
 
 <script>
 
+    let connection = null;
+
     function connect() {
 
-        document.getElementById("status").textContent =
-            "Connecting...";
+        const address = prompt(
+            "Enter the Windows PC address:",
+            "192.168.1.100"
+        );
 
+        if (!address) {
+            return;
+        }
+
+        setStatus("Connecting...");
+
+        connection = new WebSocket(
+            "ws://" + address + ":8765"
+        );
+
+        connection.onopen = function() {
+
+            setStatus("Connected");
+
+            document.getElementById("screenMessage").textContent =
+                "Connected to Windows PC";
+
+            connection.send("ping");
+        };
+
+        connection.onmessage = function(event) {
+
+            console.log(
+                "Windows Agent:",
+                event.data
+            );
+
+            if (event.data === "pong") {
+
+                document.getElementById("screenMessage").textContent =
+                    "Windows Agent connected";
+            }
+        };
+
+        connection.onerror = function() {
+
+            setStatus("Connection failed");
+
+            document.getElementById("screenMessage").textContent =
+                "Could not connect to Windows PC";
+        };
+
+        connection.onclose = function() {
+
+            connection = null;
+
+            setStatus("Not connected");
+
+            document.getElementById("screenMessage").textContent =
+                "Windows screen will appear here";
+        };
     }
+
 
     function disconnect() {
 
-        document.getElementById("status").textContent =
-            "Not connected";
+        if (connection) {
+            connection.close();
+            connection = null;
+        }
 
+        setStatus("Not connected");
+
+        document.getElementById("screenMessage").textContent =
+            "Windows screen will appear here";
     }
 
+
+    function setStatus(message) {
+
+        document.getElementById("status").textContent =
+            message;
+    }
+
+
     if ("serviceWorker" in navigator) {
-        navigator.serviceWorker.register("./service-worker.js");
+
+        navigator.serviceWorker.register(
+            "./service-worker.js"
+        );
+
     }
 
 </script>

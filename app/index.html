@@ -138,23 +138,26 @@
 
     let connection = null;
 
-    function connect() {
+   function connect() {
 
-        const address = prompt(
-            "Enter the Windows PC address:",
-            "192.168.1.100"
-        );
+    const savedAddress = localStorage.getItem("windowsPCAddress");
 
-        if (!address) {
-            return;
-        }
+    const address = prompt(
+        "Enter the Windows PC address:",
+        savedAddress || "192.168.1.100"
+    );
 
-        setStatus("Connecting...");
+    if (!address) {
+        return;
+    }
 
-        connection = new WebSocket(
-            "ws://" + address + ":8765"
-        );
+    localStorage.setItem("windowsPCAddress", address);
 
+    setStatus("Connecting...");
+
+    connection = new WebSocket(
+        "ws://" + address + ":8765"
+    );
         connection.onopen = function() {
 
             setStatus("Connected");

@@ -1,22 +1,302 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Windows for Chromebook</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #111827;
+            color: white;
+            min-height: 100vh;
+        }
+
+        header {
+            height: 64px;
+            background: #1f2937;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            border-bottom: 1px solid #374151;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #d1d5db;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ef4444;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px;
+        }
+
+        .connection-panel {
+            background: #1f2937;
+            border: 1px solid #374151;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        h1 {
+            margin-top: 0;
+            margin-bottom: 8px;
+        }
+
+        .description {
+            color: #9ca3af;
+            margin-top: 0;
+        }
+
+        .connection-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        input {
+            flex: 1;
+            min-width: 220px;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #4b5563;
+            background: #111827;
+            color: white;
+            font-size: 15px;
+        }
+
+        button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            background: #2563eb;
+            color: white;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        .screen {
+            background: #000;
+            border: 1px solid #374151;
+            border-radius: 12px;
+            overflow: hidden;
+            aspect-ratio: 16 / 9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .screen-content {
+            text-align: center;
+            color: #6b7280;
+        }
+
+        .screen-icon {
+            font-size: 50px;
+            margin-bottom: 10px;
+        }
+
+        .apps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+        .app-card {
+            background: #1f2937;
+            border: 1px solid #374151;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .app-card h3 {
+            margin-top: 0;
+        }
+
+        .app-card p {
+            color: #9ca3af;
+            font-size: 14px;
+        }
+
+        .app-card button {
+            width: 100%;
+            margin-top: 10px;
+            background: #374151;
+        }
+
+        .app-card button:hover {
+            background: #4b5563;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #6b7280;
+            font-size: 13px;
+        }
+    </style>
 </head>
 
 <body>
-    <h1>Windows for Chromebook</h1>
 
-    <p id="status">Not connected</p>
+    <header>
+        <div class="logo">Windows for Chromebook</div>
 
-    <button onclick="connect()">Connect</button>
+        <div class="status">
+            <span id="statusDot" class="status-dot"></span>
+            <span id="statusText">Not connected</span>
+        </div>
+    </header>
+
+    <main>
+
+        <section class="connection-panel">
+            <h1>Connect to Windows</h1>
+
+            <p class="description">
+                Connect your Chromebook to your Windows PC and use Windows apps remotely.
+            </p>
+
+            <div class="connection-row">
+                <input
+                    id="pcAddress"
+                    type="text"
+                    placeholder="Windows PC address"
+                >
+
+                <button onclick="connect()">
+                    Connect
+                </button>
+            </div>
+        </section>
+
+        <section class="screen">
+            <div class="screen-content">
+                <div class="screen-icon">🖥️</div>
+
+                <div>
+                    Windows screen will appear here
+                </div>
+            </div>
+        </section>
+
+        <section class="apps">
+
+            <div class="app-card">
+                <h3>Blender</h3>
+
+                <p>
+                    Start Blender on your Windows PC.
+                </p>
+
+                <button onclick="launchApp('blender')">
+                    Launch
+                </button>
+            </div>
+
+            <div class="app-card">
+                <h3>Roblox Studio</h3>
+
+                <p>
+                    Start Roblox Studio on your Windows PC.
+                </p>
+
+                <button onclick="launchApp('roblox')">
+                    Launch
+                </button>
+            </div>
+
+            <div class="app-card">
+                <h3>More Apps</h3>
+
+                <p>
+                    More Windows applications can be added later.
+                </p>
+
+                <button onclick="showMessage()">
+                    Coming Soon
+                </button>
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer>
+        Windows for Chromebook
+    </footer>
 
     <script>
         function connect() {
-            document.getElementById("status").textContent =
-                "Connecting...";
+            const address = document.getElementById("pcAddress").value.trim();
+
+            if (address === "") {
+                setStatus("Enter your Windows PC address", false);
+                return;
+            }
+
+            setStatus("Connecting...", false);
+
+            // Real connection will be added later.
+            setTimeout(() => {
+                setStatus("Connection system coming soon", false);
+            }, 1000);
+        }
+
+        function launchApp(app) {
+            setStatus(
+                app + " launcher will be connected later",
+                false
+            );
+        }
+
+        function showMessage() {
+            setStatus("More apps coming soon", false);
+        }
+
+        function setStatus(message, connected) {
+            document.getElementById("statusText").textContent = message;
+
+            const dot = document.getElementById("statusDot");
+
+            if (connected) {
+                dot.style.background = "#22c55e";
+            } else {
+                dot.style.background = "#ef4444";
+            }
         }
     </script>
+
 </body>
 </html>

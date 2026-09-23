@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Windows for Chromebook</title>
-<link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="manifest.json">
+
     <style>
         * {
             box-sizing: border-box;
@@ -120,47 +121,55 @@
 
         </div>
 
-      <div class="controls">
+        <div class="controls">
 
-    <button onclick="connect()">
-        Connect
-    </button>
+            <button onclick="connect()">
+                Connect
+            </button>
 
-    <button onclick="disconnect()">
-        Disconnect
-    </button>
+            <button onclick="disconnect()">
+                Disconnect
+            </button>
 
-    <button onclick="settings()">
-        Settings
-    </button>
+            <button onclick="settings()">
+                Settings
+            </button>
 
-</div>
+        </div>
+
     </div>
 
 <script>
 
     let connection = null;
 
-   function connect() {
 
-    const savedAddress = localStorage.getItem("windowsPCAddress");
+    function connect() {
 
-    const address = prompt(
-        "Enter the Windows PC address:",
-        savedAddress || "192.168.1.100"
-    );
+        const savedAddress =
+            localStorage.getItem("windowsPCAddress");
 
-    if (!address) {
-        return;
-    }
+        const address = prompt(
+            "Enter the Windows PC address:",
+            savedAddress || "192.168.1.100"
+        );
 
-    localStorage.setItem("windowsPCAddress", address);
+        if (!address) {
+            return;
+        }
 
-    setStatus("Connecting...");
+        localStorage.setItem(
+            "windowsPCAddress",
+            address
+        );
 
-    connection = new WebSocket(
-        "ws://" + address + ":8765"
-    );
+        setStatus("Connecting...");
+
+        connection = new WebSocket(
+            "ws://" + address + ":8765"
+        );
+
+
         connection.onopen = function() {
 
             setStatus("Connected");
@@ -170,6 +179,7 @@
 
             connection.send("ping");
         };
+
 
         connection.onmessage = function(event) {
 
@@ -185,6 +195,7 @@
             }
         };
 
+
         connection.onerror = function() {
 
             setStatus("Connection failed");
@@ -192,6 +203,7 @@
             document.getElementById("screenMessage").textContent =
                 "Could not connect to Windows PC";
         };
+
 
         connection.onclose = function() {
 
@@ -216,6 +228,30 @@
 
         document.getElementById("screenMessage").textContent =
             "Windows screen will appear here";
+    }
+
+
+    function settings() {
+
+        const currentAddress =
+            localStorage.getItem("windowsPCAddress") || "";
+
+        const newAddress = prompt(
+            "Windows PC address:",
+            currentAddress
+        );
+
+        if (!newAddress) {
+            return;
+        }
+
+        localStorage.setItem(
+            "windowsPCAddress",
+            newAddress
+        );
+
+        document.getElementById("screenMessage").textContent =
+            "Windows PC address saved";
     }
 
 

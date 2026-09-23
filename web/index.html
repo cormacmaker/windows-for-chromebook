@@ -13,352 +13,117 @@
 
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
-            background: #111827;
+            background: #0f172a;
             color: white;
+            font-family: Arial, sans-serif;
             min-height: 100vh;
         }
 
-        header {
-            height: 64px;
-            background: #1f2937;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 24px;
-            border-bottom: 1px solid #374151;
-        }
-
-        .logo {
-            font-size: 20px;
-            font-weight: bold;
-        }
-
-        .status {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 14px;
-            color: #d1d5db;
-        }
-
-        .status-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: #ef4444;
-        }
-
-        main {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 30px;
-        }
-
-        .connection-panel {
-            background: #1f2937;
-            border: 1px solid #374151;
-            border-radius: 12px;
-            padding: 24px;
-            margin-bottom: 24px;
+        .hero {
+            text-align: center;
+            padding: 80px 20px;
         }
 
         h1 {
-            margin-top: 0;
-            margin-bottom: 8px;
+            font-size: 42px;
+            margin-bottom: 15px;
         }
 
-        .description {
-            color: #9ca3af;
-            margin-top: 0;
+        p {
+            color: #94a3b8;
+            font-size: 18px;
+            max-width: 600px;
+            margin: 0 auto 30px;
         }
 
-        .connection-row {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-            flex-wrap: wrap;
-        }
-
-        input {
-            flex: 1;
-            min-width: 220px;
-            padding: 12px;
-            border-radius: 8px;
-            border: 1px solid #4b5563;
-            background: #111827;
-            color: white;
-            font-size: 15px;
-        }
-
-        button {
-            padding: 12px 20px;
-            border: none;
-            border-radius: 8px;
+        .button {
+            display: inline-block;
+            padding: 14px 24px;
             background: #2563eb;
             color: white;
-            font-size: 15px;
-            cursor: pointer;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
         }
 
-        button:hover {
+        .button:hover {
             background: #1d4ed8;
         }
 
-        .screen {
-            background: #000;
-            border: 1px solid #374151;
-            border-radius: 12px;
-            overflow: hidden;
-            aspect-ratio: 16 / 9;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .screen-content {
-            text-align: center;
-            color: #6b7280;
-        }
-
-        .screen-icon {
-            font-size: 50px;
-            margin-bottom: 10px;
-        }
-
-        .apps {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 16px;
-            margin-top: 24px;
-        }
-
-        .app-card {
-            background: #1f2937;
-            border: 1px solid #374151;
-            border-radius: 12px;
+        .info {
+            max-width: 800px;
+            margin: 0 auto;
             padding: 20px;
         }
 
-        .app-card h3 {
+        .card {
+            background: #1e293b;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .card h2 {
             margin-top: 0;
         }
 
-        .app-card p {
-            color: #9ca3af;
-            font-size: 14px;
-        }
-
-        .app-card button {
-            width: 100%;
-            margin-top: 10px;
-            background: #374151;
-        }
-
-        .app-card button:hover {
-            background: #4b5563;
-        }
-
-        footer {
-            text-align: center;
-            padding: 30px;
-            color: #6b7280;
-            font-size: 13px;
+        .card p {
+            font-size: 15px;
+            margin: 0;
         }
     </style>
 </head>
 
 <body>
 
-<header>
-    <div class="logo">Windows for Chromebook</div>
+    <section class="hero">
 
-    <div class="status">
-        <span id="statusDot" class="status-dot"></span>
-        <span id="statusText">Not connected</span>
-    </div>
-</header>
+        <h1>Windows for Chromebook</h1>
 
-<main>
-
-    <section class="connection-panel">
-
-        <h1>Connect to Windows</h1>
-
-        <p class="description">
-            Connect your Chromebook to your Windows PC and use Windows apps remotely.
+        <p>
+            Use Windows applications from your Chromebook
+            through your own Windows PC.
         </p>
 
-        <div class="connection-row">
+        <a
+            class="button"
+            href="../app/"
+        >
+            Open Windows for Chromebook
+        </a>
 
-            <input
-                id="pcAddress"
-                type="text"
-                placeholder="Example: 192.168.1.100"
-            >
+    </section>
 
-            <button onclick="connect()">
-                Connect
-            </button>
+    <section class="info">
 
-            <button onclick="disconnect()">
-                Disconnect
-            </button>
+        <div class="card">
+
+            <h2>How it works</h2>
+
+            <p>
+                Windows for Chromebook connects your Chromebook
+                to your own Windows PC. The Windows PC runs the
+                Windows applications while your Chromebook
+                provides the interface.
+            </p>
+
+        </div>
+
+        <div class="card">
+
+            <h2>Private by design</h2>
+
+            <p>
+                Your Windows applications run on your own PC.
+                The project is designed around connecting directly
+                to your computer rather than requiring a central
+                server to run your applications.
+            </p>
 
         </div>
 
     </section>
-
-    <section class="screen">
-
-        <div class="screen-content">
-
-            <div class="screen-icon">🖥️</div>
-
-            <div id="screenMessage">
-                Windows screen will appear here
-            </div>
-
-        </div>
-
-    </section>
-
-    <section class="apps">
-
-        <div class="app-card">
-            <h3>Blender</h3>
-
-            <p>
-                Start Blender on your Windows PC.
-            </p>
-
-            <button onclick="launchApp('blender')">
-                Launch
-            </button>
-        </div>
-
-        <div class="app-card">
-            <h3>Roblox Studio</h3>
-
-            <p>
-                Start Roblox Studio on your Windows PC.
-            </p>
-
-            <button onclick="launchApp('roblox')">
-                Launch
-            </button>
-        </div>
-
-        <div class="app-card">
-            <h3>More Apps</h3>
-
-            <p>
-                More Windows applications can be added later.
-            </p>
-
-            <button onclick="showMessage()">
-                Coming Soon
-            </button>
-        </div>
-
-    </section>
-
-</main>
-
-<footer>
-    Windows for Chromebook
-</footer>
-
-<script>
-
-    let connection = null;
-
-    function connect() {
-
-        const address =
-            document.getElementById("pcAddress").value.trim();
-
-        if (address === "") {
-            setStatus("Enter your Windows PC address", false);
-            return;
-        }
-
-        setStatus("Connecting...", false);
-
-        /*
-         * The Windows Agent currently uses TCP.
-         *
-         * A browser cannot directly open a raw TCP
-         * connection, so this is intentionally not
-         * connected yet.
-         *
-         * We'll change the Windows Agent to a browser-
-         * compatible connection system next.
-         */
-
-        setTimeout(() => {
-
-            setStatus(
-                "Agent connection needs WebSocket support",
-                false
-            );
-
-        }, 500);
-    }
-
-
-    function disconnect() {
-
-        if (connection) {
-            connection.close();
-            connection = null;
-        }
-
-        setStatus("Not connected", false);
-
-        document.getElementById("screenMessage").textContent =
-            "Windows screen will appear here";
-    }
-
-
-    function launchApp(app) {
-
-        if (!connection) {
-
-            setStatus(
-                "Connect to your Windows PC first",
-                false
-            );
-
-            return;
-        }
-
-        console.log("Launching:", app);
-    }
-
-
-    function showMessage() {
-
-        setStatus(
-            "More apps coming soon",
-            false
-        );
-    }
-
-
-    function setStatus(message, connected) {
-
-        document.getElementById("statusText").textContent =
-            message;
-
-        const dot =
-            document.getElementById("statusDot");
-
-        dot.style.background =
-            connected ? "#22c55e" : "#ef4444";
-    }
-
-</script>
 
 </body>
 </html>

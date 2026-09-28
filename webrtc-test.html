@@ -1,1 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>WebRTC Test</title>
+</head>
 
+<body>
+    <h1>Windows for Chromebook WebRTC Test</h1>
+
+    <button onclick="startTest()">Start WebRTC Test</button>
+
+    <p id="status">Not started</p>
+
+    <script>
+        async function startTest() {
+            const status = document.getElementById("status");
+
+            try {
+                status.textContent = "Creating WebRTC connection...";
+
+                const pc = new RTCPeerConnection();
+
+                pc.createDataChannel("test");
+
+                const offer = await pc.createOffer();
+                await pc.setLocalDescription(offer);
+
+                status.textContent = "Sending connection request...";
+
+                const response = await fetch(
+                    "http://192.168.4.63:8766/offer",
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            sdp: pc.localDescription.sdp,
+                            type: pc.localDescription.type
+                        })
+                    }
+                );
+
+                if (!response.ok) {
+                    throw new Error(
+                        "Server returned HTTP " + response.status
+                    );
+                }
+
+                const answer = await response.json();
+
+                await pc.setRemoteDescription(
+                    new RTCSessionDescription(answer)
+                );
+
+                status.textContent =
+                    "WebRTC connection established!";
+            } catch (error) {
+                console.error(error);
+                status.textContent =
+                    "WebRTC test failed: " + error.message;
+            }
+        }
+    </script>
+</body>
+</html>
